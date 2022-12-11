@@ -8,7 +8,7 @@ import {
   Save,
   UpVote,
   DownVote,
-} from '../../src/entities';
+} from 'src/entities';
 
 import { databaseConfig } from './database.config';
 
@@ -36,7 +36,7 @@ export const databaseProvider = [
       }
       const sequelize = new Sequelize(config);
       sequelize.addModels([User, Post, Comment, Topic, Save, UpVote, DownVote]);
-      await sequelize.sync({ force: true });
+      await sequelize.sync({ force: false });
       return sequelize;
     },
   },
