@@ -11,7 +11,6 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    DatabaseModule,
     AuthModule,
     UserModule,
     PostModule,
@@ -19,6 +18,7 @@ import { ConfigModule } from '@nestjs/config';
     CommentModule,
     SaveModule,
     VoteModule,
+    DatabaseModule,
   ],
 })
 export class AppModule {}

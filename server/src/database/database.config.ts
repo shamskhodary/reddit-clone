@@ -2,7 +2,7 @@ import * as dotenv from 'dotenv';
 import { IDatabaseConfig } from 'src/interfaces/IDatabaseConfig';
 
 dotenv.config();
-
+console.log(process.env.DB_USER);
 export const databaseConfig: IDatabaseConfig = {
   development: {
     username: process.env.DB_USER,
