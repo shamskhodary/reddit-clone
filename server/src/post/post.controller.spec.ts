@@ -19,6 +19,6 @@ describe('PostController', () => {
   });
 
   it('should test jest', () => {
-    expect('post testing').toBe('post testing');
+    expect(2 * 2).toBe(4);
   });
 });
