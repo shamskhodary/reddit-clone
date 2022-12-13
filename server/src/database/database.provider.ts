@@ -1,14 +1,6 @@
 import { Sequelize } from 'sequelize-typescript';
 import { DEVELOPMENT, SEQUELIZE, TEST, PRODUCTION } from 'src/constants';
-import {
-  User,
-  Post,
-  Topic,
-  Comment,
-  Save,
-  UpVote,
-  DownVote,
-} from 'src/entities';
+import { User, Post, Topic, Comment, Save, Votes } from 'src/entities';
 
 import { databaseConfig } from './database.config';
 
@@ -35,8 +27,8 @@ export const databaseProvider = [
           config = databaseConfig.development;
       }
       const sequelize = new Sequelize(config);
-      sequelize.addModels([User, Post, Comment, Topic, Save, UpVote, DownVote]);
-      await sequelize.sync({ force: false });
+      sequelize.addModels([User, Post, Comment, Topic, Save, Votes]);
+      await sequelize.sync({ force: false, logging: false });
       return sequelize;
     },
   },

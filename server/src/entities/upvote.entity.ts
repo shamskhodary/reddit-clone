@@ -1,4 +1,0 @@
-import { Table, Model } from 'sequelize-typescript';
-
-@Table
-export class UpVote extends Model {}
