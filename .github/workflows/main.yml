@@ -64,5 +64,5 @@ jobs:
           DB_PASS: 123
           DB_DIALECT: postgres
           DB_NAME_TEST: nest_reddit
-          JWTKEY: ${{secrets.SECRET_KEY}}
+          JWTKEY: random_secret_key
           BEARER: Bearer
