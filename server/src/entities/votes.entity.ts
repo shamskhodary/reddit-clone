@@ -1,10 +1,10 @@
 import {
   Table,
   Model,
-  PrimaryKey,
-  AutoIncrement,
   Column,
   DataType,
+  AutoIncrement,
+  PrimaryKey,
   ForeignKey,
   BelongsTo,
 } from 'sequelize-typescript';
@@ -12,7 +12,7 @@ import { Post } from './post.entity';
 import { User } from './user.entity';
 
 @Table
-export class Save extends Model<Save> {
+export class Votes extends Model<Votes> {
   @PrimaryKey
   @AutoIncrement
   @Column({
@@ -20,12 +20,8 @@ export class Save extends Model<Save> {
   })
   id?: number;
 
-  @ForeignKey(() => User)
-  @Column({ type: DataType.INTEGER })
-  userId: number;
-
-  @BelongsTo(() => User)
-  user: User;
+  @Column({ type: DataType.INTEGER, defaultValue: 0 })
+  counter: number;
 
   @ForeignKey(() => Post)
   @Column({ type: DataType.INTEGER })
@@ -33,4 +29,11 @@ export class Save extends Model<Save> {
 
   @BelongsTo(() => Post)
   post: Post;
+
+  @ForeignKey(() => User)
+  @Column({ type: DataType.INTEGER })
+  userId: number;
+
+  @BelongsTo(() => User)
+  user: User;
 }
