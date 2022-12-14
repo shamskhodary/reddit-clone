@@ -3,7 +3,7 @@ import { Body, Param, Query } from '@nestjs/common/decorators';
 import { CreatePostDto, UpdatePostDto } from './dto';
 import { PostService } from './post.service';
 
-@Controller('post')
+@Controller('posts')
 export class PostController {
   constructor(private postService: PostService) {}
   @Get()
@@ -22,13 +22,13 @@ export class PostController {
   }
 
   @Patch(':postId')
-  update(@Param('postId') id: string, @Body() dto: UpdatePostDto) {
-    return this.postService.update(+id, dto);
+  update(@Param('postId') postId: string, @Body() dto: UpdatePostDto) {
+    return this.postService.update(+postId, dto);
   }
 
   @Delete(':postId')
-  delete(@Param('postId') id: string) {
-    return this.postService.delete(+id);
+  delete(@Param('postId') postId: string) {
+    return this.postService.delete(+postId);
   }
 
   @Get()
