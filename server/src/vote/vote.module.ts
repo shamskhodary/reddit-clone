@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { DownVoteService } from './downvote.service';
-import { UpVoteService } from './upvote.service';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { Votes } from 'src/entities';
 import { VoteController } from './vote.controller';
-import { VoteDownProvider, VoteUpProvider } from './votes.provider';
+import { VotesService } from './vote.service';
 
 @Module({
-  providers: [UpVoteService, DownVoteService, VoteUpProvider, VoteDownProvider],
+  imports: [SequelizeModule.forFeature([Votes])],
+  providers: [VotesService],
   controllers: [VoteController],
 })
 export class VoteModule {}

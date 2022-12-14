@@ -1,12 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { SignInDto, SignUpDto } from 'src/dto';
-import { UserService } from 'src/user/user.service';
+import { InjectModel } from '@nestjs/sequelize';
+import { User } from 'src/entities';
+import { SignInDto, SignUpDto } from './dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private userService: UserService,
+    @InjectModel(User) private userModel: typeof User,
     private configService: ConfigService,
   ) {}
 
@@ -16,4 +17,6 @@ export class AuthService {
   async signin(dto: SignInDto): Promise<SignInDto> {
     return dto;
   }
+  //create new user
+  //sign in user
 }

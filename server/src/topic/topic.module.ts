@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { Topic } from 'src/entities';
 import { TopicController } from './topic.controller';
 import { TopicService } from './topic.service';
-import { TopicProvider } from './topic.provider';
 
 @Module({
+  imports: [SequelizeModule.forFeature([Topic])],
   controllers: [TopicController],
-  providers: [TopicService, TopicProvider],
+  providers: [TopicService],
 })
 export class TopicModule {}

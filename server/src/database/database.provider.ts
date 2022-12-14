@@ -1,35 +1,27 @@
-import { Sequelize } from 'sequelize-typescript';
-import { DEVELOPMENT, SEQUELIZE, TEST, PRODUCTION } from 'src/constants';
-import { User, Post, Topic, Comment, Save, Votes } from 'src/entities';
+// import { Sequelize } from 'sequelize-typescript';
+import { DEVELOPMENT, TEST, PRODUCTION } from 'src/constants';
+// import { User, Post, Topic, Comment, Save, Votes } from 'src/entities';
 
 import { databaseConfig } from './database.config';
 
 const { NODE_ENV } = process.env;
-export const databaseProvider = [
-  {
-    provide: SEQUELIZE,
-    useFactory: async () => {
-      let config;
-      switch (NODE_ENV) {
-        case DEVELOPMENT:
-          config = databaseConfig.development;
-          break;
 
-        case TEST:
-          config = databaseConfig.test;
-          break;
+let config;
+switch (NODE_ENV) {
+  case DEVELOPMENT:
+    config = databaseConfig.development;
+    break;
 
-        case PRODUCTION:
-          config = databaseConfig.production;
-          break;
+  case TEST:
+    config = databaseConfig.test;
+    break;
 
-        default:
-          config = databaseConfig.development;
-      }
-      const sequelize = new Sequelize(config);
-      sequelize.addModels([User, Post, Comment, Topic, Save, Votes]);
-      await sequelize.sync({ force: false, logging: false });
-      return sequelize;
-    },
-  },
-];
+  case PRODUCTION:
+    config = databaseConfig.production;
+    break;
+
+  default:
+    config = databaseConfig.development;
+}
+
+export default config;
