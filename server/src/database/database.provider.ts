@@ -1,6 +1,4 @@
-// import { Sequelize } from 'sequelize-typescript';
 import { DEVELOPMENT, TEST, PRODUCTION } from 'src/constants';
-// import { User, Post, Topic, Comment, Save, Votes } from 'src/entities';
 
 import { databaseConfig } from './database.config';
 
