@@ -25,14 +25,19 @@ export class CommentController {
   }
 
   @Patch(':commentId')
-  update(@Param(':postId') postId:string, @Param('commentId') commentId: string,dto: UpdateCommentDto) {
-    return this.commentService.update(+postId,+commentId, dto);
+  update(
+    @Param(':postId') postId: string,
+    @Param('commentId') commentId: string,
+    dto: UpdateCommentDto,
+  ) {
+    return this.commentService.update(+postId, +commentId, dto);
   }
 
   @Delete(':commentId')
-  delete(@Param(':postId') postId:string, @Param('commentId') commentId: string) {
-    return this.commentService.delete(+postId,+commentId);
+  delete(
+    @Param(':postId') postId: string,
+    @Param('commentId') commentId: string,
+  ) {
+    return this.commentService.delete(+postId, +commentId);
   }
 }
-
-
