@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
+import { SequelizeModule } from '@nestjs/sequelize';
+import { Comment } from 'src/entities';
 import { CommentController } from './comment.controller';
 import { CommentService } from './comment.service';
-import { CommentProvider } from './comment.provider';
 
 @Module({
+  imports: [SequelizeModule.forFeature([Comment])],
   controllers: [CommentController],
-  providers: [CommentService, CommentProvider],
+  providers: [CommentService],
 })
 export class CommentModule {}

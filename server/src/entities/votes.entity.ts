@@ -20,8 +20,9 @@ export class Votes extends Model<Votes> {
   })
   id?: number;
 
-  @Column({ type: DataType.INTEGER, defaultValue: 0 })
-  counter: number;
+  //This row will be created once the user clicks on vote either up or down
+  @Column({ type: DataType.BOOLEAN })
+  status: boolean;
 
   @ForeignKey(() => Post)
   @Column({ type: DataType.INTEGER })
