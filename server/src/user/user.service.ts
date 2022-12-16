@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { SignUpDto } from 'src/auth/dto';
 import { User } from 'src/entities';
 import { UpdateUserDto } from './dto';
 
@@ -8,23 +7,16 @@ import { UpdateUserDto } from './dto';
 export class UserService {
   constructor(@InjectModel(User) private userModel: typeof User) {}
 
-  create(dto: SignUpDto) {
-    return `Returning a new user with body = ${dto}`;
+  async findOneById(id: number): Promise<User> {
+    return await this.userModel.findOne({ where: { id } });
   }
 
-  findOneById(id: number) {
-    return `Returning user where id = ${id}`;
-  }
+  async update(id: number, dto: UpdateUserDto): Promise<UpdateUserDto> {
+    const [row, [updated]] = await this.userModel.update(
+      { ...dto },
+      { where: { id }, returning: true },
+    );
 
-  findOneByUsername(username: string) {
-    return `Returning user where username =${username}`;
-  }
-
-  findOneByEmail(email: string) {
-    return `Returning user where username =${email}`;
-  }
-
-  update(id: number, dto: UpdateUserDto) {
-    return `Returning user updated where id =${id} with body ${dto}`;
+    return updated;
   }
 }

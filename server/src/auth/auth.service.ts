@@ -1,5 +1,12 @@
-import { Inject, Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
+import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from 'src/entities';
 import { SignInDto, SignUpDto } from './dto';
@@ -8,15 +15,83 @@ import { SignInDto, SignUpDto } from './dto';
 export class AuthService {
   constructor(
     @InjectModel(User) private userModel: typeof User,
-    private configService: ConfigService,
+    private jwt: JwtService,
+    private config: ConfigService,
   ) {}
 
-  async signup(dto: SignUpDto): Promise<SignUpDto> {
-    return dto;
+  async signup(
+    dto: SignUpDto,
+  ): Promise<{ token: string | Buffer; message: string }> {
+    try {
+      const userExists = await this.userModel.findOne({
+        where: {
+          username: dto.username,
+        },
+      });
+
+      if (userExists) {
+        throw new HttpException(
+          `The username ${dto.username} is used before`,
+          HttpStatus.CONFLICT,
+        );
+      }
+
+      const hash = await bcrypt.hash(dto.password, 10);
+      const newUser = await this.userModel.create({ ...dto, password: hash });
+
+      newUser.password = '';
+      const token = await this.generateToken(newUser);
+
+      return { token, message: 'Signed up successfully' };
+    } catch (error) {
+      if (error.name === 'SequelizeUniqueConstraintError') {
+        throw new HttpException(
+          `This ${error.errors[0].path} already exists`,
+          HttpStatus.CONFLICT,
+        );
+      } else if (error.name === 'HttpException') {
+        throw new HttpException(error.response, HttpStatus.CONFLICT);
+      } else {
+        throw new HttpException(
+          'An error occurred while creating a user ',
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+    }
   }
-  async signin(dto: SignInDto): Promise<SignInDto> {
-    return dto;
+
+  async signin(
+    dto: SignInDto,
+  ): Promise<{ token: string | Buffer; message: string }> {
+    try {
+      const user = await this.userModel.findOne({
+        where: { email: dto.email },
+      });
+      if (!user) throw new ForbiddenException('User does not exist');
+
+      const isPasswordMatched = await bcrypt.compare(
+        dto.password,
+        user.password,
+      );
+      if (!isPasswordMatched)
+        throw new ForbiddenException('Password is not correct');
+
+      const token = await this.generateToken(user);
+
+      return { token, message: 'Signed in successfully' };
+    } catch (error) {
+      return { token: null, message: error.message };
+    }
   }
-  //create new user
-  //sign in user
+
+  private async generateToken(user: User): Promise<string | Buffer> {
+    const payload = { sub: user.id, email: user.email };
+    const secret = this.config.get('JWTKEY');
+    const token = await this.jwt.sign(payload, { secret });
+
+    return token;
+  }
+  getHello() {
+    return 'Hellooo world';
+  }
 }
