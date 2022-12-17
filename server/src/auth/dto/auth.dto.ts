@@ -32,7 +32,7 @@ export class SignUpDto {
 
   @IsDateString()
   @IsNotEmpty()
-  age: Date;
+  dateOfBirth: Date;
 
   @IsEnum(Gender)
   @IsNotEmpty()
