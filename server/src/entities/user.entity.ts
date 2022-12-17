@@ -44,7 +44,7 @@ export class User extends Model<User> {
     type: DataType.DATE,
     allowNull: false,
   })
-  age: Date;
+  dateOfBirth: Date;
 
   @Column({
     type: DataType.ENUM,

@@ -10,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/sequelize';
 import { User } from 'src/entities';
 import { SignInDto, SignUpDto } from './dto';
+import { ErrorCode } from 'src/constants';
 
 @Injectable()
 export class AuthService {
@@ -53,7 +54,7 @@ export class AuthService {
         throw new HttpException(error.response, HttpStatus.CONFLICT);
       } else {
         throw new HttpException(
-          'An error occurred while creating a user ',
+          ErrorCode.INTERNAL_SERVER_ERROR,
           HttpStatus.INTERNAL_SERVER_ERROR,
         );
       }
@@ -67,14 +68,14 @@ export class AuthService {
       const user = await this.userModel.findOne({
         where: { email: dto.email },
       });
-      if (!user) throw new ForbiddenException('User does not exist');
+      if (!user) throw new ForbiddenException(ErrorCode.USER_NOT_FOUND);
 
       const isPasswordMatched = await bcrypt.compare(
         dto.password,
         user.password,
       );
       if (!isPasswordMatched)
-        throw new ForbiddenException('Password is not correct');
+        throw new ForbiddenException(ErrorCode.INCORRECT_PASSWORD);
 
       const token = await this.generateToken(user);
 
@@ -90,8 +91,5 @@ export class AuthService {
     const token = await this.jwt.sign(payload, { secret });
 
     return token;
-  }
-  getHello() {
-    return 'Hellooo world';
   }
 }
