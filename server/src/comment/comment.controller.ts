@@ -4,40 +4,99 @@ import {
   Delete,
   Get,
   Param,
-  Patch,
+  Put,
   Post,
+  Req,
+  UseGuards,
+  ParseIntPipe,
+  NotFoundException,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CommentService } from './comment.service';
 import { CreateCommentDto, UpdateCommentDto } from './dto';
 
-@Controller('posts/:postId/comments')
+@Controller('/posts/:postId/comments')
 export class CommentController {
   constructor(private commentService: CommentService) {}
 
   @Get()
-  findAll(@Param('postId') postId: string) {
-    return this.commentService.findAll(+postId);
+  async findAll(@Param('postId', ParseIntPipe) postId: string) {
+    const allComments = await this.commentService.findAll(+postId);
+
+    return allComments;
   }
 
-  @Post('')
-  create(@Param('postId') postId: string, @Body() dto: CreateCommentDto) {
-    return this.commentService.create(+postId, dto);
-  }
-
-  @Patch(':commentId')
-  update(
-    @Param(':postId') postId: string,
-    @Param('commentId') commentId: string,
-    dto: UpdateCommentDto,
+  @UseGuards(JwtAuthGuard)
+  @Post()
+  async create(
+    @Param('postId', ParseIntPipe) postId: string,
+    @Body() dto: CreateCommentDto,
+    @Req() req,
   ) {
-    return this.commentService.update(+postId, +commentId, dto);
+    const comment = await this.commentService.create(+postId, dto, req.user.id);
+
+    if (!comment) throw new NotFoundException('something went wrong');
+
+    return comment;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Put(':commentId')
+  async update(
+    @Param('postId', ParseIntPipe) postId: string,
+    @Param('commentId', ParseIntPipe) commentId: string,
+    @Body() dto: UpdateCommentDto,
+    @Req() req,
+  ) {
+    const comment = await this.commentService.getComment(
+      +commentId,
+      +postId,
+      req.user.id,
+    );
+
+    if (comment.userId !== req.user.id) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    }
+
+    const updated = await this.commentService.update(
+      +postId,
+      +commentId,
+      dto,
+      req.user.id,
+    );
+
+    if (!updated) throw new NotFoundException('This comment does not exist');
+
+    return updated;
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Delete(':commentId')
-  delete(
-    @Param(':postId') postId: string,
-    @Param('commentId') commentId: string,
+  async delete(
+    @Param('commentId', ParseIntPipe) commentId: string,
+    @Param('postId', ParseIntPipe) postId: string,
+    @Req() req,
   ) {
-    return this.commentService.delete(+postId, +commentId);
+    const comment = await this.commentService.getComment(
+      +commentId,
+      +postId,
+      req.user.id,
+    );
+
+    if (comment.userId !== req.user.id) {
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    }
+
+    const deleted = await this.commentService.delete(
+      +commentId,
+      +postId,
+      req.user.id,
+    );
+
+    if (!deleted) throw new NotFoundException('This comment does not exist');
+
+    return { message: 'comment deleted successfully' };
   }
 }

@@ -1,4 +1,11 @@
-import { Controller, Get, Post, Put, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 import { Body, Param, Query, Req, UseGuards } from '@nestjs/common/decorators';
 import {
   ForbiddenException,
@@ -21,7 +28,7 @@ export class PostController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<postEntity> {
+  async findOne(@Param('id', ParseIntPipe) id: string): Promise<postEntity> {
     const post = await this.postService.findOne(+id);
 
     if (!post) throw new NotFoundException(ErrorCode.POST_NOT_FOUND);
@@ -44,7 +51,7 @@ export class PostController {
   @UseGuards(JwtAuthGuard)
   @Put(':postId')
   async update(
-    @Param('postId') postId: string,
+    @Param('postId', ParseIntPipe) postId: string,
     @Body() dto: UpdatePostDto,
     @Req() req,
   ): Promise<Partial<postEntity>> {
@@ -58,7 +65,7 @@ export class PostController {
   @UseGuards(JwtAuthGuard)
   @Delete(':postId')
   async delete(
-    @Param('postId') postId: string,
+    @Param('postId', ParseIntPipe) postId: string,
     @Req() req,
   ): Promise<{ message: string }> {
     const isDeleted = await this.postService.delete(+postId, req.user.id);
