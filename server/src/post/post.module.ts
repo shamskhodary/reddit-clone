@@ -8,5 +8,6 @@ import { PostService } from './post.service';
   imports: [SequelizeModule.forFeature([Post])],
   controllers: [PostController],
   providers: [PostService],
+  exports: [SequelizeModule],
 })
 export class PostModule {}

@@ -77,3 +77,5 @@ export class PostService {
     return deleted;
   }
 }
+//npm install --save @nestjs/platform-express multer
+//npm i -D @types/multer

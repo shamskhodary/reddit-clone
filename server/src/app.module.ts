@@ -8,6 +8,7 @@ import { SaveModule } from './save/save.module';
 import { VoteModule } from './vote/vote.module';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { SearchModule } from './search/search.module';
 import config from './database/database.provider';
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import config from './database/database.provider';
     CommentModule,
     SaveModule,
     VoteModule,
+    SearchModule,
   ],
 })
 export class AppModule {}
