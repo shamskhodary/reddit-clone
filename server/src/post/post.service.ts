@@ -7,24 +7,15 @@ import { CreatePostDto, UpdatePostDto } from './dto';
 export class PostService {
   constructor(@InjectModel(Post) private postModel: typeof Post) {}
 
-  async create(
-    createPostDto: CreatePostDto,
-    userId: number,
-    topicId: number,
-  ): Promise<Post> {
-    const addPost = await this.postModel.create<Post>({
+  async create(createPostDto: CreatePostDto, userId: number): Promise<Post> {
+    const addPost = await this.postModel.create({
       ...createPostDto,
       userId,
-      topicId,
     });
     return addPost;
   }
 
-  async findAll(topicId?: number): Promise<Post[]> {
-    const whereObj: { topicId?: number } = {};
-    if (topicId) {
-      whereObj['topicId'] = topicId;
-    }
+  async findAll(): Promise<Post[]> {
     const allPosts = await this.postModel.findAll({
       include: [
         {
@@ -34,7 +25,6 @@ export class PostService {
           },
         },
       ],
-      where: whereObj,
     });
 
     return allPosts;
@@ -77,3 +67,5 @@ export class PostService {
     return deleted;
   }
 }
+//npm install --save @nestjs/platform-express multer
+//npm i -D @types/multer

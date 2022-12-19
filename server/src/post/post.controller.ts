@@ -21,8 +21,8 @@ import { PostService } from './post.service';
 export class PostController {
   constructor(private postService: PostService) {}
   @Get()
-  async findAll(@Query('topicId') topicId: string): Promise<postEntity[]> {
-    const allPosts = await this.postService.findAll(+topicId);
+  async findAll(): Promise<postEntity[]> {
+    const allPosts = await this.postService.findAll();
 
     return allPosts;
   }
@@ -41,9 +41,8 @@ export class PostController {
   async create(
     @Body() dto: CreatePostDto,
     @Req() req,
-    @Query('topicId') topicId: string,
   ): Promise<{ isAdded: postEntity; message: string }> {
-    const isAdded = await this.postService.create(dto, req.user.id, +topicId);
+    const isAdded = await this.postService.create(dto, req.user.id);
 
     return { isAdded, message: 'post created successfully' };
   }
