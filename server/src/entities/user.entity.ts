@@ -61,6 +61,12 @@ export class User extends Model<User> {
   })
   profileImg?: string;
 
+  @Column({
+    type: DataType.TEXT,
+    allowNull: true,
+  })
+  biography: string;
+
   @HasMany(() => Post, { onDelete: 'CASCADE' })
   posts: Post[];
 

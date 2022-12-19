@@ -8,6 +8,7 @@ import {
   MinLength,
   MaxLength,
 } from 'class-validator';
+import { string } from 'joi';
 
 export enum Gender {
   MALE = 'male',
@@ -41,6 +42,10 @@ export class SignUpDto {
   @IsString()
   @IsOptional()
   profileImg?: string;
+
+  @IsString()
+  @IsOptional()
+  biography?: string;
 }
 
 export class SignInDto {

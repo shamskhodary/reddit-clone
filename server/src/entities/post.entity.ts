@@ -10,6 +10,7 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 import { Comment } from './comment.entity';
+import { Save } from './save.entity';
 import { User } from './user.entity';
 import { Votes } from './votes.entity';
 
@@ -52,4 +53,7 @@ export class Post extends Model<Post> {
 
   @HasMany(() => Votes, { onDelete: 'CASCADE' })
   votes: Votes[];
+
+  @HasMany(() => Save, { onDelete: 'CASCADE' })
+  saves: Save[];
 }
