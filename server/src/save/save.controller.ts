@@ -7,6 +7,7 @@ import {
   Req,
   UseGuards,
   NotFoundException,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { ErrorCode } from 'src/constants';
@@ -30,7 +31,10 @@ export class SaveController {
 
   @UseGuards(JwtAuthGuard)
   @Post('/posts/:postId/saves')
-  async create(@Param('postId') postId: string, @Req() req): Promise<Save> {
+  async create(
+    @Param('postId', ParseIntPipe) postId: string,
+    @Req() req,
+  ): Promise<Save> {
     const isSaved = await this.saveService.findOrCreate(req.user.id, +postId);
 
     if (!req.user) throw new Error('Invalid input');
@@ -41,8 +45,8 @@ export class SaveController {
   @UseGuards(JwtAuthGuard)
   @Delete('/posts/:postId/saves/:id')
   async delete(
-    @Param('postId') postId: string,
-    @Param('id') id: string,
+    @Param('postId', ParseIntPipe) postId: string,
+    @Param('id', ParseIntPipe) id: string,
     @Req() req,
   ): Promise<{ message: string }> {
     const unSaved = await this.saveService.delete(+id, req.user.id, +postId);
