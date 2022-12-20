@@ -10,6 +10,7 @@ import {
 import { Comment } from './comment.entity';
 import { Post } from './post.entity';
 import { Save } from './save.entity';
+import { Share } from './share.entity';
 import { Votes } from './votes.entity';
 
 @Table
@@ -78,4 +79,7 @@ export class User extends Model<User> {
 
   @HasMany(() => Votes, { onDelete: 'CASCADE' })
   votes: Votes[];
+
+  @HasMany(() => Share)
+  shares: Share[];
 }
