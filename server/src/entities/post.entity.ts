@@ -11,6 +11,7 @@ import {
 } from 'sequelize-typescript';
 import { Comment } from './comment.entity';
 import { Save } from './save.entity';
+import { Share } from './share.entity';
 import { User } from './user.entity';
 import { Votes } from './votes.entity';
 
@@ -56,4 +57,7 @@ export class Post extends Model<Post> {
 
   @HasMany(() => Save, { onDelete: 'CASCADE' })
   saves: Save[];
+
+  @HasMany(() => Share, { onDelete: 'CASCADE' })
+  shares: Share[];
 }
