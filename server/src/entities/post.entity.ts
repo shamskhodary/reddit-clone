@@ -42,6 +42,12 @@ export class Post extends Model<Post> {
   })
   postImg: string;
 
+  @Column({
+    type: DataType.DATE,
+    allowNull: true,
+  })
+  createdAt?: string;
+
   @ForeignKey(() => User)
   @Column({ type: DataType.INTEGER })
   userId: number;

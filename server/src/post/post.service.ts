@@ -66,6 +66,15 @@ export class PostService {
 
     return deleted;
   }
+
+  async updateTime(id: number, createdAt: string) {
+    const [row, [updated]] = await this.postModel.update(
+      { createdAt },
+      { where: { id }, returning: true },
+    );
+
+    return updated;
+  }
 }
 //npm install --save @nestjs/platform-express multer
 //npm i -D @types/multer
