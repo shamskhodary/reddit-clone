@@ -1,11 +1,5 @@
 import { Controller, ParseIntPipe } from '@nestjs/common';
-import {
-  UseGuards,
-  Param,
-  Request,
-  Post,
-  Get,
-} from '@nestjs/common/decorators';
+import { UseGuards, Param, Req, Post, Get } from '@nestjs/common/decorators';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { Votes } from 'src/entities';
 import { VotesService } from './vote.service';
@@ -18,7 +12,7 @@ export class VoteController {
   @Post('votes/up')
   async voteUp(
     @Param('postId', ParseIntPipe) postId: string,
-    @Request() req,
+    @Req() req,
   ): Promise<Votes> {
     const voteUp = await this.votesService.findOne(+postId, req.user.id);
 

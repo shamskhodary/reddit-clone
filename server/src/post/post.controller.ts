@@ -1,3 +1,5 @@
+import 'intl';
+import { format } from 'timeago.js';
 import {
   Controller,
   Get,
@@ -6,7 +8,7 @@ import {
   Delete,
   ParseIntPipe,
 } from '@nestjs/common';
-import { Body, Param, Query, Req, UseGuards } from '@nestjs/common/decorators';
+import { Body, Param, Req, UseGuards } from '@nestjs/common/decorators';
 import {
   ForbiddenException,
   NotFoundException,
@@ -16,15 +18,23 @@ import { ErrorCode } from 'src/constants';
 import { Post as postEntity } from 'src/entities';
 import { CreatePostDto, UpdatePostDto } from './dto';
 import { PostService } from './post.service';
+import { TimeAgoService } from './timeAgo.service';
 
 @Controller('posts')
 export class PostController {
   constructor(private postService: PostService) {}
   @Get()
   async findAll(): Promise<postEntity[]> {
-    const allPosts = await this.postService.findAll();
+    const posts = await this.postService.findAll();
+    //need to be fixed
+    posts.map(async (e) => {
+      const createdAt = new Date(e.createdAt);
+      e.createdAt = format(createdAt);
+      await this.postService.updateTime(e.id, e.createdAt);
+      return e;
+    });
 
-    return allPosts;
+    return posts;
   }
 
   @Get(':id')
