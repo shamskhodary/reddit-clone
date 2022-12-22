@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { SearchModule } from './search/search.module';
 import { ShareModule } from './share/share.module';
+import { NewsModule } from './news/news.module';
 import config from './database/database.provider';
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import config from './database/database.provider';
     VoteModule,
     SearchModule,
     ShareModule,
+    NewsModule,
   ],
 })
 export class AppModule {}
