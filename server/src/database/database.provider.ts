@@ -5,7 +5,7 @@ import { databaseConfig } from './database.config';
 const { NODE_ENV } = process.env;
 
 let config;
-let ssl: boolean | object = false;
+const ssl: boolean | object = false;
 switch (NODE_ENV) {
   case DEVELOPMENT:
     config = databaseConfig.development;
@@ -17,9 +17,6 @@ switch (NODE_ENV) {
 
   case PRODUCTION:
     config = databaseConfig.production;
-    ssl = {
-      rejectUnauthorized: false,
-    };
     break;
 
   default:

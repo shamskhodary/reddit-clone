@@ -9,10 +9,9 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
-      // exceptionFactory: (errors: any) =>
-      //   new BadRequestException(Object.values(errors[0].constraints)),
     }),
   );
+  app.enableCors();
   app.setGlobalPrefix('/api/v1');
   await app.listen(port);
 }
