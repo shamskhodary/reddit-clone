@@ -1,0 +1,23 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  height: 55px;
+  background-color: #fff;
+}
+
+header .logo {
+  width: 100px;
+}
+
+.logo img {
+  width: 100%;
+}
+
+header .registration {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
