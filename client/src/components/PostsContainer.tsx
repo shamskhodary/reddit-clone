@@ -1,13 +1,11 @@
-import { FC } from "react";
-import Post from "./Post";
+import { FC } from 'react'
+import Post from './Post'
 
-const PostsContainer:FC = () => {
-  return ( 
-    <div className="posts-container">
-      container
-      <Post/>
-    </div>
-   );
-}
- 
-export default PostsContainer;
+const PostsContainer:FC = () => (
+  <div className="posts-container">
+    container
+    <Post />
+  </div>
+)
+
+export default PostsContainer

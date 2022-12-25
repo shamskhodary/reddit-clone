@@ -1,8 +1,7 @@
-import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from 'axios'
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import JwtService from './JwtService'
 
-
- class ApiService {
+class ApiService {
   private static axios: AxiosInstance
 
   public static init():void {
