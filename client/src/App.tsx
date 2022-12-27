@@ -8,10 +8,6 @@ const App:FC = () => {
   ApiService.init()
   ApiService.setHeader()
 
-  // useEffect(() => {
-  //   ApiService.get('/api/v1/posts').then((res) => console.log(res))
-  // },[])
-
   return (
     <RouterProvider router={Routes} />
   )
