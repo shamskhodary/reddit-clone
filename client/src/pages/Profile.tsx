@@ -1,12 +1,11 @@
-import { UserProfile } from "../components";
+import { FC } from 'react'
+import { UserProfile } from '../components'
 
-const Profile = () => {
-  return ( 
-    <div className="profile">
-      profile container
-      <UserProfile/>
-    </div>
-   );
-}
- 
-export default Profile;
+const Profile:FC = () => (
+  <div className="profile">
+    profile container
+    <UserProfile />
+  </div>
+)
+
+export default Profile

@@ -1,40 +1,40 @@
-import { createBrowserRouter} from 'react-router-dom'
-import { Post } from '../components';
-import { FetchNews, Profile } from '../pages';
-import Home from '../pages/Home';
-import NotFound from '../pages/NotFound';
-import Signin from '../pages/Signin';
-import Signup from '../pages/Signup';
+import { createBrowserRouter } from 'react-router-dom'
+import { Post } from '../components'
+import { FetchNews, Profile } from '../pages'
+import Home from '../pages/Home'
+import NotFound from '../pages/NotFound'
+import Signin from '../pages/Signin'
+import Signup from '../pages/Signup'
 
 const Routes = createBrowserRouter([
   {
     path: '/',
-    element: <Home/>,
-    children:[ {
+    element: <Home />,
+    children: [{
       path: '/news',
-      element: <FetchNews/>,
+      element: <FetchNews />,
     }],
-    errorElement: <NotFound/>
+    errorElement: <NotFound />,
   },
   {
     path: '/signup',
-    element: <Signup/>,
-    errorElement: <NotFound/>
+    element: <Signup />,
+    errorElement: <NotFound />,
   },
   {
     path: '/signin',
-    element: <Signin/>,
-    errorElement: <NotFound/>
+    element: <Signin />,
+    errorElement: <NotFound />,
   },
   {
     path: '/user',
-    element: <Profile/>,
-    errorElement: <NotFound/>
+    element: <Profile />,
+    errorElement: <NotFound />,
   }, {
     path: 'post/:id',
-    element: <Post/>,
-    errorElement: <NotFound/>
-  }
+    element: <Post />,
+    errorElement: <NotFound />,
+  },
 ])
- 
-export default Routes;
+
+export default Routes

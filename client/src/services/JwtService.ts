@@ -1,4 +1,4 @@
- class JwtService {
+class JwtService {
   private static tokenName = 'token'
 
   public static getToken():string | null {

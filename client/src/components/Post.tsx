@@ -1,11 +1,7 @@
-import { FC } from "react";
+import { FC } from 'react'
 
-const Post:FC = () => {
-  return ( 
-    <div className="post">
+const Post:FC = () => (
+  <div className="post" />
+)
 
-    </div>
-   );
-}
- 
-export default Post;
+export default Post

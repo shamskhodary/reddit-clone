@@ -5,5 +5,6 @@ import Profile from './Profile'
 import FetchNews from './FetchNews'
 import NotFound from './NotFound'
 
-
-export {Home, Signup, Signin, FetchNews,Profile, NotFound}
+export {
+  Home, Signup, Signin, FetchNews, Profile, NotFound,
+}

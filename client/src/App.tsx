@@ -1,9 +1,10 @@
-import { RouterProvider } from 'react-router-dom';
-import './App.css';
-import Routes from './routes';
-import ApiService from './services/ApiService';
+import { FC } from 'react'
+import { RouterProvider } from 'react-router-dom'
+import './App.css'
+import Routes from './routes'
+import ApiService from './services/ApiService'
 
-function App() {
+const App:FC = () => {
   ApiService.init()
   ApiService.setHeader()
 
@@ -12,8 +13,8 @@ function App() {
   // },[])
 
   return (
-    <RouterProvider router={Routes}/>
-  );
+    <RouterProvider router={Routes} />
+  )
 }
 
-export default App;
+export default App
