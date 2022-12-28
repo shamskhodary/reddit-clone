@@ -22,7 +22,7 @@ export class AuthService {
 
   async signup(
     dto: SignUpDto,
-  ): Promise<{ token: string | Buffer; message: string }> {
+  ): Promise<{ token: string | Buffer; message: string; user: User }> {
     try {
       const userExists = await this.userModel.findOne({
         where: {
@@ -43,7 +43,7 @@ export class AuthService {
       newUser.password = '';
       const token = await this.generateToken(newUser);
 
-      return { token, message: 'Signed up successfully' };
+      return { token, message: 'Signed up successfully', user: newUser };
     } catch (error) {
       if (error.name === 'SequelizeUniqueConstraintError') {
         throw new HttpException(
@@ -63,7 +63,7 @@ export class AuthService {
 
   async signin(
     dto: SignInDto,
-  ): Promise<{ token: string | Buffer; message: string }> {
+  ): Promise<{ token: string | Buffer; message: string; user: User }> {
     try {
       const user = await this.userModel.findOne({
         where: { email: dto.email },
@@ -79,9 +79,9 @@ export class AuthService {
 
       const token = await this.generateToken(user);
 
-      return { token, message: 'Signed in successfully' };
+      return { token, message: 'Signed in successfully', user };
     } catch (error) {
-      return { token: null, message: error.message };
+      return { token: null, message: error.message, user: null };
     }
   }
 
