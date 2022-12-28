@@ -64,6 +64,7 @@ const Navbar:FC = () => {
             fontWeight: 700,
             color: '#000',
           }}
+          onClick={() => auth.signout()}
         >
           Log out
         </Button>
@@ -107,8 +108,11 @@ const Navbar:FC = () => {
                 alignItems: 'baseline',
               }}
               >
-                <Avatar style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}>U</Avatar>
-                <Title level={5}>username</Title>
+                <Avatar
+                  style={{ color: '#f56a00', backgroundColor: '#fde3cf' }}
+                  src={auth.user?.profileImg}
+                />
+                <Title level={5}>{auth.user?.username}</Title>
                 <DownOutlined />
               </Space>
             </button>

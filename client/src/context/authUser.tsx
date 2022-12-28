@@ -8,18 +8,36 @@ import JwtService from '../services/JwtService'
 export const AuthContext = createContext({})
 
 export const AuthProvider = ({ children }: IAuthContextProp):ReactElement => {
-  const [user, setUser] = useState({})
-  const [error, setError] = useState<string|null>('')
+  const [user, setUser] = useState(null)
 
   const signup = async (val:object):Promise<{isLogged: boolean, error:any}> => {
     try {
       const response = await ApiService.post('/api/v1/auth/signup', val)
+
       if (response.status === 200) {
+        setUser(response.data.user)
         JwtService.setToken(response.data.token)
         ApiService.setHeader()
       }
+
       return { isLogged: true, error: null }
-    } catch (err) {
+    } catch (error) {
+      return { isLogged: false, error }
+    }
+  }
+
+  const signin = async (val:object):Promise<{isLogged: boolean, error:any}> => {
+    try {
+      const response = await ApiService.post('/api/v1/auth/signin', val)
+
+      if (response.status === 200) {
+        setUser(response.data.user)
+        JwtService.setToken(response.data.token)
+        ApiService.setHeader()
+      }
+
+      return { isLogged: true, error: null }
+    } catch (error) {
       return { isLogged: false, error }
     }
   }
@@ -27,8 +45,7 @@ export const AuthProvider = ({ children }: IAuthContextProp):ReactElement => {
   const signout = ():void => {
     JwtService.clearToken()
     ApiService.setHeader()
-    setUser({})
-    setError(null)
+    setUser(null)
   }
 
   useEffect(() => {
@@ -39,7 +56,7 @@ export const AuthProvider = ({ children }: IAuthContextProp):ReactElement => {
           setUser(userInfo.data)
         }
       } catch (err:any) {
-        setError(err.message)
+        setUser(null)
       }
     }
     isAuthenticated()
@@ -49,11 +66,12 @@ export const AuthProvider = ({ children }: IAuthContextProp):ReactElement => {
     user,
     signup,
     signout,
+    signin,
+    setUser,
   }), [user])
 
   return (
     <AuthContext.Provider value={values}>
-      {error && <p>{error}</p>}
       {children}
     </AuthContext.Provider>
   )

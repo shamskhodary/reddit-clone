@@ -16,10 +16,10 @@ const { Option } = Select
 const Signup:FC = () => {
   const [open, setOpen] = useState<boolean>(false)
   const navigate = useNavigate()
-  const auth = useAuth()
+  const { signup } = useAuth()
 
   const handleSubmitting = async (val:object):Promise<any> => {
-    const userInfo = await auth.signup(val)
+    const userInfo = await signup(val)
     if (userInfo.isLogged === true) {
       setOpen(false)
       navigate('/')
