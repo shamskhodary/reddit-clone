@@ -17,10 +17,4 @@ export class AuthController {
   signin(@Body() dto: SignInDto) {
     return this.authService.signin(dto);
   }
-
-  // @UseGuards(JwtAuthGuard)
-  // @Get('/hello')
-  // getHello() {
-  //   return this.authService.getHello();
-  // }
 }
