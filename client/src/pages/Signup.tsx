@@ -5,10 +5,10 @@ import { FC, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Formik } from 'formik'
 import dayjs from 'dayjs'
-import IFormValues from '../interfaces/IFormValues'
 import signupValidation from '../validation/signupValidation'
 import '../styles/signup.css'
 import { useAuth } from '../context/authUser'
+import { IFormValues } from '../interfaces'
 
 const { Title } = Typography
 const { Option } = Select
@@ -18,7 +18,15 @@ const Signup:FC = () => {
   const navigate = useNavigate()
   const { signup } = useAuth()
 
-  const handleSubmitting = async (val:object):Promise<any> => {
+  const initialValues:IFormValues = {
+    username: '',
+    email: '',
+    password: '',
+    gender: '',
+    dateOfBirth: '',
+  }
+
+  const handleSubmitting = async (val:IFormValues):Promise<void> => {
     const userInfo = await signup(val)
     if (userInfo.isLogged === true) {
       setOpen(false)
@@ -31,13 +39,6 @@ const Signup:FC = () => {
     }
   }
 
-  const initialValues:IFormValues = {
-    username: '',
-    email: '',
-    password: '',
-    gender: '',
-    dateOfBirth: '',
-  }
   return (
     <div className="signup-page">
       <Button

@@ -1,6 +1,7 @@
 import {
   createContext, ReactElement, useContext, useEffect, useMemo, useState,
 } from 'react'
+import { IUser } from '../interfaces'
 import IAuthContextProp from '../interfaces/props/IAuthContextProp'
 import ApiService from '../services/ApiService'
 import JwtService from '../services/JwtService'
@@ -8,7 +9,7 @@ import JwtService from '../services/JwtService'
 export const AuthContext = createContext({})
 
 export const AuthProvider = ({ children }: IAuthContextProp):ReactElement => {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState<IUser|null>(null)
 
   const signup = async (val:object):Promise<{isLogged: boolean, error:any}> => {
     try {

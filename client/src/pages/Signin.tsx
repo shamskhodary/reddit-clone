@@ -20,7 +20,7 @@ const Signin:FC = () => {
     password: '',
   }
 
-  const handleSignin = async (val:object):Promise<void> => {
+  const handleSignin = async (val:{email:string, password:string}):Promise<void> => {
     const userInfo = await signin(val)
     if (userInfo.isLogged === true) {
       setOpen(false)
