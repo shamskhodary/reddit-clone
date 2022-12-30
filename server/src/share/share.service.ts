@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
-import { Post, Share } from 'src/entities';
+import { Post, Share, User } from 'src/entities';
 
 @Injectable()
 export class ShareService {
@@ -30,11 +30,31 @@ export class ShareService {
       where: {
         [Op.or]: [{ userId }, { id: ids.map((e) => +e) }],
       },
+      include: [
+        {
+          model: User,
+          attributes: ['username', 'profileImg'],
+        },
+        {
+          model: Share,
+          attributes: ['id'],
+        },
+      ],
     });
 
     return allPosts;
   }
 
   //unshare
-  //Todo
+  async delete(id: number, postId: number, userId: number): Promise<number> {
+    const unshare = await this.shareModule.destroy({
+      where: {
+        id,
+        postId,
+        userId,
+      },
+    });
+
+    return unshare;
+  }
 }
