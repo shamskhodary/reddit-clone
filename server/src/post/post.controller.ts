@@ -18,7 +18,6 @@ import { ErrorCode } from 'src/constants';
 import { Post as postEntity } from 'src/entities';
 import { CreatePostDto, UpdatePostDto } from './dto';
 import { PostService } from './post.service';
-import { TimeAgoService } from './timeAgo.service';
 
 @Controller('posts')
 export class PostController {
