@@ -5,8 +5,9 @@ import { faComment, faBookmark, faShareFromSquare } from '@fortawesome/free-regu
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 import '../styles/post.css'
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons'
+import IPostProp from '../interfaces/props/IPostProp'
 
-const Post:FC = () => {
+const Post:FC<IPostProp> = ({ post }) => {
   const { Title, Paragraph, Text } = Typography
 
   return (
@@ -18,19 +19,19 @@ const Post:FC = () => {
       </div>
       <div className="details">
         <div className="post-user">
-          <Avatar />
+          <Avatar src={post.user.profileImg} />
           <div>
-            <Title level={5}>username</Title>
+            <Title level={5}>{post.user.username}</Title>
             <Text style={{ fontSize: '0.7rem' }}>hours ago</Text>
           </div>
         </div>
 
         <div className="title">
-          <Title level={4}>Post Title</Title>
+          <Title level={4}>{post.title}</Title>
         </div>
         <div className="para">
           <Paragraph>
-            Ant Design, a design language for background applications, is refined by Ant UED Team.
+            {post.content}
           </Paragraph>
         </div>
         <div className="social-media">

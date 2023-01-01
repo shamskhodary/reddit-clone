@@ -1,5 +1,4 @@
 import { createBrowserRouter } from 'react-router-dom'
-import { Post } from '../components'
 import { FetchNews, Profile } from '../pages'
 import Home from '../pages/Home'
 import NotFound from '../pages/NotFound'
@@ -32,7 +31,7 @@ const Routes = createBrowserRouter([
     errorElement: <NotFound />,
   }, {
     path: 'post/:id',
-    element: <Post />,
+    element: '',
     errorElement: <NotFound />,
   },
 ])
