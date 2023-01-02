@@ -1,17 +1,27 @@
 import { Avatar, Typography } from 'antd'
 import { FC } from 'react'
+import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faComment, faBookmark, faShareFromSquare } from '@fortawesome/free-regular-svg-icons'
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 import '../styles/post.css'
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons'
+import { useNavigate } from 'react-router-dom'
 import IPostProp from '../interfaces/props/IPostProp'
 
 const Post:FC<IPostProp> = ({ post }) => {
   const { Title, Paragraph, Text } = Typography
-
+  const navigate = useNavigate()
+  const navigateTo = ():void => {
+    navigate(`/posts/${post.id}`)
+  }
   return (
-    <div className="post">
+    <div
+      className="post"
+      key={post.id}
+      onClick={navigateTo}
+      aria-hidden="true"
+    >
       <div className="votes">
         <ArrowUpOutlined />
         <Text>0</Text>
@@ -22,7 +32,9 @@ const Post:FC<IPostProp> = ({ post }) => {
           <Avatar src={post.user.profileImg} />
           <div>
             <Title level={5}>{post.user.username}</Title>
-            <Text style={{ fontSize: '0.7rem' }}>hours ago</Text>
+            <Text style={{ fontSize: '0.7rem' }}>
+              {moment(post.createdAt).fromNow()}
+            </Text>
           </div>
         </div>
 

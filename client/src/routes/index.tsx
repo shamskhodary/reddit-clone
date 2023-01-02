@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import { FetchNews, Profile } from '../pages'
 import Home from '../pages/Home'
 import NotFound from '../pages/NotFound'
+import PostDetails from '../pages/PostDetails'
 import Signin from '../pages/Signin'
 import Signup from '../pages/Signup'
 
@@ -30,8 +31,8 @@ const Routes = createBrowserRouter([
     element: <Profile />,
     errorElement: <NotFound />,
   }, {
-    path: 'post/:id',
-    element: '',
+    path: 'posts/:id',
+    element: <PostDetails />,
     errorElement: <NotFound />,
   },
 ])

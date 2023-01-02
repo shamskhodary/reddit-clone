@@ -17,10 +17,10 @@ const PostsContainer:FC = () => {
     }
     posts()
   }, [])
-  console.log(post)
+
   return (
     <div className="posts-container">
-      {post && post.map((e) => <Post post={e} />)}
+      {post && post.map((e) => <Post post={e} key={e.id} />)}
     </div>
   )
 }

@@ -55,12 +55,14 @@
 .icon h5 {
   margin-bottom: 0;
   padding-left: 0.5rem;
+  font-size: 0.8rem;
 }
 
-.post .social-media .icon {
+.post .details .social-media .icon {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  font-size: 0.8rem;
 }
 
 .post .votes {

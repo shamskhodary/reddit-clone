@@ -1,6 +1,7 @@
 import IUser from './IUser'
 
 export default interface IPosts {
+  id:number;
   title: string;
   content: string;
   postImg: string;

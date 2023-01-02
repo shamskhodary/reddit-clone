@@ -6,7 +6,7 @@ import { FC, useState } from 'react'
 
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/authUser'
-import signinSchema from '../validation/signinValidation'
+import { signinSchema } from '../validation'
 
 const { Title } = Typography
 
