@@ -12,6 +12,7 @@ import {
   NotFoundException,
   HttpException,
   HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { CommentService } from './comment.service';
@@ -29,6 +30,7 @@ export class CommentController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @HttpCode(HttpStatus.OK)
   @Post()
   async create(
     @Param('postId', ParseIntPipe) postId: string,
