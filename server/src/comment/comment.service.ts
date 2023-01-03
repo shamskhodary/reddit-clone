@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { NotFoundException } from '@nestjs/common/exceptions';
 import { InjectModel } from '@nestjs/sequelize';
-import { Comment } from 'src/entities';
+import { Comment, User } from 'src/entities';
 import { CreateCommentDto, UpdateCommentDto } from './dto';
 
 @Injectable()
@@ -13,6 +13,12 @@ export class CommentService {
       where: {
         postId,
       },
+      include: [
+        {
+          model: User,
+          attributes: ['username', 'profileImg'],
+        },
+      ],
     });
     return allComments;
   }

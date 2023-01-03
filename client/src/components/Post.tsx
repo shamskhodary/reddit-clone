@@ -15,6 +15,7 @@ const Post:FC<IPostProp> = ({ post }) => {
   const navigateTo = ():void => {
     navigate(`/posts/${post.id}`)
   }
+
   return (
     <div
       className="post"
@@ -49,7 +50,13 @@ const Post:FC<IPostProp> = ({ post }) => {
         <div className="social-media">
           <div className="icon">
             <FontAwesomeIcon icon={faComment} />
-            <Title level={5}>comments</Title>
+            <Title level={5}>
+              <Text style={{ paddingRight: '5px' }}>
+                {post.comments?.length > 0 && post.comments?.length}
+              </Text>
+
+              comments
+            </Title>
           </div>
           <div className="icon">
             {' '}

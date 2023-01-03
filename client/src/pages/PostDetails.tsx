@@ -16,6 +16,7 @@ const { Title, Paragraph, Text } = Typography
 const PostDetails:FC = () => {
   const [details, setDetails] = useState<IPosts | null>(null)
   const { id } = useParams()
+
   useEffect(() => {
     const postInfo = async ():Promise<void> => {
       try {
@@ -57,9 +58,18 @@ const PostDetails:FC = () => {
             </Paragraph>
           </div>
           <div className="social-media">
-            <div className="icon">
+            <div
+              className="icon"
+              onClick={() => {}}
+              aria-hidden="true"
+            >
               <FontAwesomeIcon icon={faComment} />
-              <Title level={5}>comments</Title>
+              <Title level={5}>
+                <Text style={{ paddingRight: '5px' }}>{details?.comments?.length}</Text>
+
+                comments
+
+              </Title>
             </div>
             <div className="icon">
               {' '}

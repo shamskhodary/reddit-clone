@@ -9,4 +9,5 @@ export default interface IPosts {
   user: IUser;
   createdAt: string;
   updatedAt: string;
+  comments: []
 }

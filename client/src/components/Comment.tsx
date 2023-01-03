@@ -1,6 +1,6 @@
-import { FC } from 'react'
+import { FC, useState } from 'react'
 import { Form, Button, message } from 'antd'
-import QuillEditor from 'react-quill'
+import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import '../styles/details.css'
 import { useFormik } from 'formik'
@@ -10,8 +10,10 @@ import ApiService from '../services/ApiService'
 import AllComments from './AllComments'
 
 const Comments:FC = () => {
+  const [isCommented, setIsCommented] = useState(false)
   const [messageApi, contextHolder] = message.useMessage()
   const { id } = useParams()
+
   const initialValues:{content: string} = {
     content: '',
   }
@@ -23,7 +25,7 @@ const Comments:FC = () => {
       try {
         const response = await ApiService.post(`/api/v1/posts/${id}/comments`, values)
         if (response.status === 200) {
-          // console.log(response.data)
+          setIsCommented(true)
           resetForm()
         }
       } catch (error:any) {
@@ -48,7 +50,7 @@ const Comments:FC = () => {
           validateStatus={formik.touched.content && formik.errors.content ? 'error' : ''}
           help={formik.touched.content && formik.errors.content}
         >
-          <QuillEditor
+          <ReactQuill
             theme="snow"
             placeholder="Enter your comment here..."
             value={formik.values.content}
@@ -57,7 +59,7 @@ const Comments:FC = () => {
         </Form.Item>
         <Button type="primary" htmlType="submit">comment</Button>
       </Form>
-      <AllComments postId={id} />
+      <AllComments isCommented={isCommented} />
     </div>
   )
 }

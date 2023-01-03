@@ -54,6 +54,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  cursor: pointer;
 }
 
 .details-page .votes {
@@ -92,11 +93,6 @@
   margin-top: 2rem;
   padding-left: 1rem;
 }
-
-/* .my-comment span {
-  width: 1.8rem;
-  height: 1.8rem;
-} */
 
 .para-comment {
   padding-left: 2.5rem;
