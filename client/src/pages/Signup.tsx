@@ -5,7 +5,7 @@ import { FC, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Formik } from 'formik'
 import dayjs from 'dayjs'
-import signupValidation from '../validation/signupValidation'
+import { signupSchema } from '../validation'
 import '../styles/signup.css'
 import { useAuth } from '../context/authUser'
 import { IFormValues } from '../interfaces'
@@ -66,7 +66,7 @@ const Signup:FC = () => {
         <Title level={2}>Sign Up</Title>
         <Formik
           initialValues={initialValues}
-          validationSchema={signupValidation}
+          validationSchema={signupSchema}
           onSubmit={handleSubmitting}
         >
           {({

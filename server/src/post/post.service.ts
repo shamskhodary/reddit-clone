@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Post, User } from 'src/entities';
+import { Post, User, Comment } from 'src/entities';
 import { CreatePostDto, UpdatePostDto } from './dto';
 
 @Injectable()
@@ -24,24 +24,49 @@ export class PostService {
             exclude: ['password', 'createdAt', 'updatedAt'],
           },
         },
+        {
+          model: Comment,
+          as: 'comments',
+          attributes: ['id'],
+        },
       ],
     });
 
     return allPosts;
   }
 
-  async findOne(id: number): Promise<Post> {
-    const post = await this.postModel.findOne({
-      where: { id },
-      include: [
-        {
-          model: User,
-          attributes: {
-            exclude: ['password', 'createdAt', 'updatedAt'],
+  async findOne(postId: number): Promise<Post> {
+    const post = await this.postModel.findOne(
+      {
+        subQuery: false,
+        where: { id: postId },
+        include: [
+          {
+            model: User,
+            attributes: {
+              exclude: ['password', 'createdAt', 'updatedAt'],
+            },
           },
-        },
-      ],
-    });
+          {
+            model: Comment,
+            as: 'comments',
+            attributes: ['id'],
+          },
+        ],
+      },
+      //     attributes: [
+      //       [
+      //         this.postModel.sequelize.fn(
+      //           'count',
+      //           this.postModel.sequelize.col('comments.id'),
+      //         ),
+      //         'commentLength',
+      //       ],
+      //     ],
+      //   },
+      // ],
+      // group: ['Post.id', 'User.id'],
+    );
 
     return post;
   }

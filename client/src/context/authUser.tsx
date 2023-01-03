@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }: IAuthContextProp):ReactElement => {
     }
   }
 
-  const signin = async (val:object):Promise<{isLogged: boolean, error:any}> => {
+  const signin = async (val:object):Promise<{isLogged: boolean, message:any}> => {
     try {
       const response = await ApiService.post('/api/v1/auth/signin', val)
 
@@ -37,9 +37,9 @@ export const AuthProvider = ({ children }: IAuthContextProp):ReactElement => {
         ApiService.setHeader()
       }
 
-      return { isLogged: true, error: null }
+      return { isLogged: true, message: response.data.message }
     } catch (error) {
-      return { isLogged: false, error }
+      return { isLogged: false, message: error }
     }
   }
 

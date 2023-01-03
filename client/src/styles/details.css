@@ -1,0 +1,111 @@
+.details-page {
+  margin-top: 4rem;
+  display: flex;
+  background-color: #fff;
+  width: 80%;
+  border-radius: 4px;
+}
+.details-page .post-user {
+  display: flex;
+  align-items: center;
+}
+
+.details-page .details {
+  height: 30vh;
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+
+.details .post-user h5 {
+  margin-bottom: 0;
+}
+
+.details .post-user div {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding-left: 0.7rem;
+
+}
+
+.details h4 {
+  font-size: 1rem;
+  padding: 0.7rem 0 0;
+}
+
+.details .para {
+  padding-bottom: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.details-page .details .social-media {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.icon h5 {
+  margin-bottom: 0;
+  padding-left: 0.5rem;
+}
+
+.details .social-media .icon {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+}
+
+.details-page .votes {
+  width: 30px;
+  background-color: #F8F9FA;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+  gap: 0.5rem;
+}
+
+.details-page .one-post {
+  display: flex
+}
+
+.comments {
+  margin-top: 1rem;
+  width: 80%;
+  display: flex;
+  background-color: #FFF;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.comments button {
+  color: #BBBDBF;
+  background-color: #545452;
+}
+.comments button :hover {
+  background-color: #BBBDBF;
+}
+
+.my-comment {
+  margin-top: 2rem;
+  padding-left: 1rem;
+}
+
+.para-comment {
+  padding-left: 2.5rem;
+  font-size: 0.8rem;
+}
+
+.comment-owner {
+  display: flex;
+  align-items: center;
+}
+
+.comment-owner h5 {
+  margin-bottom: 0;
+  font-size: 0.7rem;
+  padding: 0 0.5rem;
+}
