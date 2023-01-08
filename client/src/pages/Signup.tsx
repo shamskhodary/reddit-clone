@@ -6,7 +6,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { Formik } from 'formik'
 import dayjs from 'dayjs'
 import { signupSchema } from '../validation'
-import '../styles/signup.css'
 import { useAuth } from '../context/authUser'
 import { IFormValues } from '../interfaces'
 

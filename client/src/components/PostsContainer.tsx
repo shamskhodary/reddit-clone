@@ -3,9 +3,13 @@ import Post from './Post'
 import '../styles/post.css'
 import ApiService from '../services/ApiService'
 import IPosts from '../interfaces/IPosts'
+import AddPost from './AddPost'
+import { useAuth } from '../context/authUser'
 
 const PostsContainer:FC = () => {
+  const auth = useAuth()
   const [post, setPost] = useState<IPosts[]>([])
+
   useEffect(() => {
     const posts = async ():Promise<void> => {
       try {
@@ -19,9 +23,13 @@ const PostsContainer:FC = () => {
   }, [])
 
   return (
-    <div className="posts-container">
-      {post && post.map((e) => <Post post={e} key={e.id} />)}
-    </div>
+    <>
+
+      {auth.user && <AddPost />}
+      <div className="posts-container">
+        {post && post.map((e) => <Post post={e} key={e.id} />)}
+      </div>
+    </>
   )
 }
 

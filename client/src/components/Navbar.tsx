@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Avatar, Typography,
@@ -72,9 +72,30 @@ const Navbar:FC = () => {
       key: 2,
     },
   ]
+  const [nav, setNav] = useState({})
+
+  const scrollNavbar = ():void => {
+    const windowHeight = window.scrollY
+    return windowHeight > 0 ? setNav({
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      zIndex: 10,
+    })
+      : setNav({})
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', scrollNavbar)
+
+    return () => {
+      window.removeEventListener('scroll', scrollNavbar)
+    }
+  }, [])
 
   return (
-    <header>
+    <header style={nav}>
       <div className="logo">
         <Link to="/"><img src={logo} alt="logo" /></Link>
       </div>
