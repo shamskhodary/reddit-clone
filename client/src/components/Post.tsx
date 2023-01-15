@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom'
 import IPostProp from '../interfaces/props/IPostProp'
 
 const Post:FC<IPostProp> = ({ post }) => {
-  const { Title, Paragraph, Text } = Typography
+  const { Title, Text } = Typography
   const navigate = useNavigate()
   const navigateTo = ():void => {
     navigate(`/posts/${post.id}`)
@@ -43,9 +43,7 @@ const Post:FC<IPostProp> = ({ post }) => {
           <Title level={4}>{post.title}</Title>
         </div>
         <div className="para">
-          <Paragraph>
-            {post.content}
-          </Paragraph>
+          <div dangerouslySetInnerHTML={{ __html: post.content }} />
         </div>
         <div className="social-media">
           <div className="icon">

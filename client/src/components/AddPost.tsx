@@ -4,7 +4,7 @@ import { useAuth } from '../context/authUser'
 import '../styles/addPost.css'
 import PostForm from './PostFrom'
 
-const AddPost:FC = () => {
+const AddPost:FC<{setIsAdded: Function}> = ({ setIsAdded }) => {
   const { user } = useAuth()
   const [open, setOpen] = useState<boolean>(false)
 
@@ -23,7 +23,7 @@ const AddPost:FC = () => {
           </Button>
         </div>
       </div>
-      <PostForm open={open} setOpen={setOpen} />
+      <PostForm open={open} setOpen={setOpen} setIsAdded={setIsAdded} />
     </>
 
   )
