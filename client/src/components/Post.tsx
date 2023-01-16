@@ -16,6 +16,8 @@ const Post:FC<IPostProp> = ({ post }) => {
     navigate(`/posts/${post.id}`)
   }
 
+  console.log(post.postImg)
+
   return (
     <div
       className="post"
@@ -44,6 +46,7 @@ const Post:FC<IPostProp> = ({ post }) => {
         </div>
         <div className="para">
           <div dangerouslySetInnerHTML={{ __html: post.content }} />
+          {post.postImg && <img src={post.postImg} alt={post.title} />}
         </div>
         <div className="social-media">
           <div className="icon">

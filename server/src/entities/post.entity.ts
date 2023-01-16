@@ -37,10 +37,10 @@ export class Post extends Model<Post> {
   content: string;
 
   @Column({
-    type: DataType.TEXT,
+    type: DataType.BLOB,
     allowNull: true,
   })
-  postImg: string;
+  postImg: Buffer;
 
   @Column({
     type: DataType.DATE,

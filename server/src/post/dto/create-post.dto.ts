@@ -25,6 +25,5 @@ export class CreatePostDto {
   content: string;
 
   @IsOptional()
-  @IsString()
-  postImg?: string;
+  postImg?: Buffer;
 }
