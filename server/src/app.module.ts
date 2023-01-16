@@ -10,6 +10,7 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { SearchModule } from './search/search.module';
 import { ShareModule } from './share/share.module';
 import { NewsModule } from './news/news.module';
+import { UploaderModule } from './uploader/uploader.module';
 import config from './database/database.provider';
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import config from './database/database.provider';
     SearchModule,
     ShareModule,
     NewsModule,
+    UploaderModule,
   ],
 })
 export class AppModule {}

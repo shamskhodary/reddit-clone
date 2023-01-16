@@ -11,7 +11,7 @@ import '../styles/details.css'
 import ApiService from '../services/ApiService'
 import IPosts from '../interfaces/IPosts'
 
-const { Title, Paragraph, Text } = Typography
+const { Title, Text } = Typography
 
 const PostDetails:FC = () => {
   const [details, setDetails] = useState<IPosts | null>(null)
@@ -53,9 +53,7 @@ const PostDetails:FC = () => {
             <Title level={4}>{details?.title}</Title>
           </div>
           <div className="para">
-            <Paragraph>
-              {details?.content}
-            </Paragraph>
+            {details?.content && <div dangerouslySetInnerHTML={{ __html: details.content }} />}
           </div>
           <div className="social-media">
             <div
