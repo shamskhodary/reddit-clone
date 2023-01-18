@@ -16,7 +16,6 @@
   align-items: flex-start;
   border-radius: 4px;
   background-color: #ffff;
-  cursor: pointer;
 }
 
 .post .post-user {
@@ -77,6 +76,7 @@
 }
 
 .post .details {
+  cursor: pointer;
   width: 100%;
   padding: 1rem 1rem 0;
 }
