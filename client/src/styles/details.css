@@ -23,7 +23,7 @@
 
 .details .post-user div {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: column;
   padding-left: 0.7rem;
 

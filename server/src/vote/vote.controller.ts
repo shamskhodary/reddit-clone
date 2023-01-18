@@ -17,13 +17,7 @@ export class VoteController {
     const voteUp = await this.votesService.findOne(+postId, req.user.id);
 
     if (voteUp) {
-      if (voteUp.status) {
-        voteUp.status = false;
-      } else {
-        voteUp.status = true;
-      }
-      await this.votesService.update(voteUp.status, +postId);
-      console.log(voteUp.status);
+      await this.votesService.remove(+postId, req.user.id, voteUp.id);
     } else {
       const newVote = await this.votesService.create(
         +postId,
@@ -43,19 +37,13 @@ export class VoteController {
     const voteDown = await this.votesService.findOne(+postId, req.user.id);
 
     if (voteDown) {
-      if (voteDown.status) {
-        voteDown.status = false;
-      } else {
-        voteDown.status = true;
-      }
-      await this.votesService.update(voteDown.status, +postId);
+      await this.votesService.remove(+postId, req.user.id, voteDown.id);
     } else {
       const newVote = await this.votesService.create(
         +postId,
         req.user.id,
         false,
       );
-
       return newVote;
     }
   }
@@ -63,7 +51,7 @@ export class VoteController {
   @Get('votes/true')
   async countUpVotes(@Param('postId', ParseIntPipe) postId: string) {
     const countTrue = await this.votesService.countVotes(+postId, true);
-
+    console.log(countTrue);
     return countTrue;
   }
 
@@ -80,7 +68,6 @@ export class VoteController {
     const countDownvote = await this.votesService.countVotes(+postId, false);
 
     const result = countUpvote - countDownvote;
-
     return result;
   }
 }
