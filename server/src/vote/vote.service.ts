@@ -28,20 +28,18 @@ export class VotesService {
     return vote;
   }
 
-  async update(status: boolean, postId: number): Promise<Votes> {
-    const [row, [updated]] = await this.voteModule.update(
-      { status },
-      {
-        where: {
-          postId,
-        },
-        returning: true,
+  //remove vote
+  async remove(postId: number, userId: number, id: number) {
+    const removed = await this.voteModule.destroy({
+      where: {
+        postId,
+        userId,
+        id,
       },
-    );
+    });
 
-    return updated;
+    return removed;
   }
-
   //count votes
   async countVotes(postId: number, status: boolean): Promise<number> {
     const votesByStatus = await this.voteModule.count({
