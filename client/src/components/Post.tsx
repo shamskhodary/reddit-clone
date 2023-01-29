@@ -22,12 +22,11 @@ const Post:FC<IPostProp> = ({ post }) => {
   const navigateTo = ():void => {
     navigate(`/posts/${post.id}`)
   }
-
   // console.log(post.postImg)
   const handleVoteUp = async ():Promise<void> => {
     try {
+      await ApiService.post(`/api/v1/posts/${post.id}/votes/up`, {})
       if (user) {
-        await ApiService.post(`/api/v1/posts/${post.id}/votes/up`, {})
         setVotedUp(!votedUp)
       }
     } catch (error:any) {
@@ -37,8 +36,8 @@ const Post:FC<IPostProp> = ({ post }) => {
 
   const handleVoteDown = async ():Promise<void> => {
     try {
+      await ApiService.post(`/api/v1/posts/${post.id}/votes/down`, {})
       if (user) {
-        await ApiService.post(`/api/v1/posts/${post.id}/votes/down`, {})
         setVotedDown(!votedDown)
       }
     } catch (error:any) {
@@ -71,9 +70,9 @@ const Post:FC<IPostProp> = ({ post }) => {
         aria-hidden="true"
       >
         <div className="post-user">
-          <Avatar src={post?.user?.profileImg} />
+          <Avatar src={post.user?.profileImg} />
           <div>
-            <Title level={5}>{post?.user?.username}</Title>
+            <Title level={5}>{post.user?.username}</Title>
             <Text style={{ fontSize: '0.7rem' }}>
               {moment(post.createdAt).fromNow()}
             </Text>

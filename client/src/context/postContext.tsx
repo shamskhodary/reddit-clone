@@ -15,7 +15,6 @@ export const PostProvider = ({ children }: {children: React.ReactNode}):ReactEle
       try {
         const response = await ApiService.get('/api/v1/posts')
         setPost(response.data)
-        // setNoData(false)
       } catch (error) {
         setPost([])
       }

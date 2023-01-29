@@ -109,7 +109,6 @@ const Navbar:FC = () => {
       setPost(searched.data)
     }
   }
-
   return (
     <header style={nav}>
       <div className="logo">
