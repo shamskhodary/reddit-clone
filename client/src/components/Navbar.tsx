@@ -9,12 +9,17 @@ import logo from '../assets/logo.png'
 import '../styles/navbar.css'
 import { Signin, Signup } from '../pages'
 import { useAuth } from '../context/authUser'
+import ApiService from '../services/ApiService'
+import { usePost } from '../context/postContext'
 
 const { Search } = Input
 const { Title } = Typography
 
 const Navbar:FC = () => {
   const auth = useAuth()
+  const [search, setSearch] = useState<string>('')
+  const { setPost } = usePost()
+
   const items: MenuProps['items'] = [
     {
       label: (
@@ -94,6 +99,16 @@ const Navbar:FC = () => {
     }
   }, [])
 
+  const handleSearch = async ():Promise<void> => {
+    if (search !== '') {
+      const searched = await ApiService.get('/api/v1/search', {
+        params: {
+          q: search,
+        },
+      })
+      setPost(searched.data)
+    }
+  }
   return (
     <header style={nav}>
       <div className="logo">
@@ -102,7 +117,9 @@ const Navbar:FC = () => {
       <div className="search">
         <Search
           placeholder="Search Reddit"
-      //  onSearch={onSearch}
+          onSearch={handleSearch}
+          onChange={(e) => setSearch(e.target.value)}
+          value={search}
           style={{ width: 500 }}
         />
       </div>

@@ -22,12 +22,11 @@ const Post:FC<IPostProp> = ({ post }) => {
   const navigateTo = ():void => {
     navigate(`/posts/${post.id}`)
   }
-
   // console.log(post.postImg)
   const handleVoteUp = async ():Promise<void> => {
     try {
+      await ApiService.post(`/api/v1/posts/${post.id}/votes/up`, {})
       if (user) {
-        await ApiService.post(`/api/v1/posts/${post.id}/votes/up`, {})
         setVotedUp(!votedUp)
       }
     } catch (error:any) {
@@ -37,8 +36,8 @@ const Post:FC<IPostProp> = ({ post }) => {
 
   const handleVoteDown = async ():Promise<void> => {
     try {
+      await ApiService.post(`/api/v1/posts/${post.id}/votes/down`, {})
       if (user) {
-        await ApiService.post(`/api/v1/posts/${post.id}/votes/down`, {})
         setVotedDown(!votedDown)
       }
     } catch (error:any) {
@@ -71,9 +70,9 @@ const Post:FC<IPostProp> = ({ post }) => {
         aria-hidden="true"
       >
         <div className="post-user">
-          <Avatar src={post.user.profileImg} />
+          <Avatar src={post.user?.profileImg} />
           <div>
-            <Title level={5}>{post.user.username}</Title>
+            <Title level={5}>{post.user?.username}</Title>
             <Text style={{ fontSize: '0.7rem' }}>
               {moment(post.createdAt).fromNow()}
             </Text>
@@ -81,18 +80,18 @@ const Post:FC<IPostProp> = ({ post }) => {
         </div>
 
         <div className="title">
-          <Title level={4}>{post.title}</Title>
+          <Title level={4}>{post?.title}</Title>
         </div>
         <div className="para">
           <div dangerouslySetInnerHTML={{ __html: post.content }} />
-          {post.postImg && <img src={post.postImg} alt={post.title} />}
         </div>
+        {post?.postImg && <img src={post?.postImg} alt="" />}
         <div className="social-media">
           <div className="icon">
             <FontAwesomeIcon icon={faComment} />
             <Title level={5}>
               <Text style={{ paddingRight: '5px' }}>
-                {post.comments?.length > 0 && post.comments?.length}
+                {post?.comments?.length > 0 && post?.comments?.length}
               </Text>
 
               comments

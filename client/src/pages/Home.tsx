@@ -1,10 +1,15 @@
 import { FC } from 'react'
 import { Navbar, PostsContainer } from '../components'
+import { PostProvider } from '../context/postContext'
 
 const Home:FC = () => (
   <div className="homepage">
-    <Navbar />
-    <PostsContainer />
+    <PostProvider>
+      {' '}
+      <Navbar />
+      <PostsContainer />
+    </PostProvider>
+
   </div>
 )
 

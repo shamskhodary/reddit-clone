@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
 import { Op } from 'sequelize';
-import { Post } from 'src/entities';
+import { Post, User } from 'src/entities';
 
 @Injectable()
 export class SearchService {
@@ -19,9 +19,14 @@ export class SearchService {
           },
         },
       },
+      include: [
+        {
+          model: User,
+          attributes: ['username', 'createdAt', 'profileImg'],
+        },
+      ],
     });
 
     return searchResults;
   }
-  s;
 }

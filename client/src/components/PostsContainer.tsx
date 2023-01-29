@@ -1,16 +1,14 @@
-import { FC, useEffect, useState } from 'react'
+import { FC } from 'react'
 import moment from 'moment'
 import Post from './Post'
 import '../styles/post.css'
-import ApiService from '../services/ApiService'
-import IPosts from '../interfaces/IPosts'
 import AddPost from './AddPost'
 import { useAuth } from '../context/authUser'
+import { usePost } from '../context/postContext'
 
 const PostsContainer:FC = () => {
   const auth = useAuth()
-  const [post, setPost] = useState<IPosts[]>([])
-  const [isAdded, setIsAdded] = useState(false)
+  const { post, setIsAdded } = usePost()
 
   post.sort((a:any, b:any):any => {
     const date1 = moment(a.createdAt)
@@ -18,24 +16,12 @@ const PostsContainer:FC = () => {
     return +date2 - +date1
   })
 
-  useEffect(() => {
-    const posts = async ():Promise<void> => {
-      try {
-        const response = await ApiService.get('/api/v1/posts')
-        setPost(response.data)
-      } catch (error) {
-        setPost([])
-      }
-    }
-    posts()
-  }, [isAdded])
-
   return (
     <>
-
       {auth.user && <AddPost setIsAdded={setIsAdded} />}
       <div className="posts-container">
-        {post && post.map((e) => <Post post={e} key={e.id} />)}
+        {post ? post.map((e:any) => <Post post={e} key={e.id} />) : <p>No posts found</p>}
+        {post.length === 0 && <p>No posts found</p>}
       </div>
     </>
   )
