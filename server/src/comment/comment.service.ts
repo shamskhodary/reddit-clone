@@ -85,4 +85,15 @@ export class CommentService {
 
     return isDeleted;
   }
+
+  async countComments(postId: number, userId: number): Promise<number> {
+    const total = await this.commentModule.count({
+      where: {
+        postId,
+        userId,
+      },
+    });
+
+    return total;
+  }
 }

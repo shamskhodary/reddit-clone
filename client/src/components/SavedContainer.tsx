@@ -5,7 +5,7 @@ import '../styles/saves.css'
 import Saves from './Saves'
 
 const SavedContainer:FC = () => {
-  const [saves, setSaves] = useState<ISaves[]| null>(null)
+  const [saves, setSaves] = useState<ISaves[]>([])
 
   useEffect(() => {
     const allSaved = async ():Promise<void> => {
@@ -15,7 +15,7 @@ const SavedContainer:FC = () => {
           setSaves(response.data)
         }
       } catch (error) {
-        setSaves(null)
+        setSaves([])
       }
     }
     allSaved()
@@ -23,7 +23,13 @@ const SavedContainer:FC = () => {
 
   return (
     <div className="saves">
-      {saves && saves.map((e:any) => <Saves data={e} key={e.id} />)}
+      {saves ? saves.map((e:any, i) => (
+        <Saves
+          data={e}
+          // eslint-disable-next-line react/no-array-index-key
+          key={i}
+        />
+      )) : 'No posts saved'}
     </div>
   )
 }

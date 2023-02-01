@@ -9,15 +9,12 @@ export const postContext = createContext({})
 export const PostProvider = ({ children }: {children: React.ReactNode}):ReactElement => {
   const [post, setPost] = useState<IPosts[]>([])
   const [isAdded, setIsAdded] = useState(false)
-  const [mySaved, setMySaved] = useState(null)
 
   useEffect(() => {
     const posts = async ():Promise<void> => {
       try {
         const response = await ApiService.get('/api/v1/posts')
         setPost(response.data)
-        const data = response.data.map((e:any) => e.saves[0])
-        setMySaved(data)
       } catch (error) {
         setPost([])
       }
@@ -29,8 +26,7 @@ export const PostProvider = ({ children }: {children: React.ReactNode}):ReactEle
     post,
     setIsAdded,
     setPost,
-    mySaved,
-  }), [post, mySaved])
+  }), [post])
 
   return (
     <postContext.Provider value={values}>

@@ -20,7 +20,7 @@ export class SaveController {
 
   @UseGuards(JwtAuthGuard)
   @Get('/saves')
-  async findAll(@Req() req): Promise<postEntity[]> {
+  async findAll(@Req() req): Promise<object> {
     const allSaved = await this.saveService.findAll(req.user.id);
 
     if (!req.user) throw new Error('Invalid input');
@@ -53,7 +53,8 @@ export class SaveController {
     @Req() req,
   ): Promise<{ message: string }> {
     const unSaved = await this.saveService.delete(+id, req.user.id, +postId);
-    if (!unSaved) throw new NotFoundException(ErrorCode.POST_NOT_FOUND);
+
+    if (!postId) throw new NotFoundException(ErrorCode.POST_NOT_FOUND);
 
     if (unSaved) {
       await this.saveService.updateSaved(+postId, req.user.id, false);

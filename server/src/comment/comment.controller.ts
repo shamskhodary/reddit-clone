@@ -101,4 +101,15 @@ export class CommentController {
 
     return { message: 'comment deleted successfully' };
   }
+
+  @UseGuards(JwtAuthGuard)
+  @Get('/count')
+  async allComments(
+    @Param('postId', ParseIntPipe) postId: string,
+    @Req() req,
+  ): Promise<number> {
+    const count = await this.commentService.countComments(+postId, req.user.id);
+
+    return count;
+  }
 }
