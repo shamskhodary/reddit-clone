@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/sequelize';
-import { Post, User, Comment } from 'src/entities';
+import { Post, User, Comment, Save } from 'src/entities';
 import { CreatePostDto, UpdatePostDto } from './dto';
 
 @Injectable()
@@ -28,6 +28,11 @@ export class PostService {
           model: Comment,
           as: 'comments',
           attributes: ['id'],
+        },
+        {
+          model: Save,
+          as: 'saves',
+          attributes: ['postId', 'id'],
         },
       ],
     });

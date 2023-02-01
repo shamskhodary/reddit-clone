@@ -5,7 +5,10 @@ import { Post } from 'src/entities';
 
 @Injectable()
 export class SaveService {
-  constructor(@InjectModel(Save) private saveModule: typeof Save) {}
+  constructor(
+    @InjectModel(Save) private saveModule: typeof Save,
+    @InjectModel(Post) private postModule: typeof Post,
+  ) {}
 
   async findAll(userId: number): Promise<Post[]> {
     const allSaved = await this.saveModule.findAll({
@@ -46,5 +49,20 @@ export class SaveService {
     });
 
     return deleted;
+  }
+
+  async updateSaved(id: number, userId: number, val: boolean): Promise<Post> {
+    const [row, [updated]] = await this.postModule.update(
+      { saved: val },
+      {
+        where: {
+          id,
+          userId,
+        },
+        returning: true,
+      },
+    );
+
+    return updated;
   }
 }

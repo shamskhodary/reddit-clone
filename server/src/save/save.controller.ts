@@ -11,7 +11,6 @@ import {
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { ErrorCode } from 'src/constants';
-import { Save } from 'src/entities';
 import { Post as postEntity } from 'src/entities';
 import { SaveService } from './save.service';
 
@@ -34,12 +33,16 @@ export class SaveController {
   async create(
     @Param('postId', ParseIntPipe) postId: string,
     @Req() req,
-  ): Promise<Save> {
-    const isSaved = await this.saveService.findOrCreate(req.user.id, +postId);
+  ): Promise<string> {
+    const saved = await this.saveService.findOrCreate(req.user.id, +postId);
+
+    if (saved) {
+      await this.saveService.updateSaved(+postId, req.user.id, true);
+    }
 
     if (!req.user) throw new Error('Invalid input');
 
-    return isSaved;
+    return 'post is saved successfully';
   }
 
   @UseGuards(JwtAuthGuard)
@@ -50,8 +53,11 @@ export class SaveController {
     @Req() req,
   ): Promise<{ message: string }> {
     const unSaved = await this.saveService.delete(+id, req.user.id, +postId);
-
     if (!unSaved) throw new NotFoundException(ErrorCode.POST_NOT_FOUND);
+
+    if (unSaved) {
+      await this.saveService.updateSaved(+postId, req.user.id, false);
+    }
 
     return { message: 'unsaved successfully' };
   }
