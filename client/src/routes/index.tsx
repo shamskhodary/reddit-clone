@@ -1,10 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom'
-import { FetchNews, Profile } from '../pages'
-import Home from '../pages/Home'
-import NotFound from '../pages/NotFound'
-import PostDetails from '../pages/PostDetails'
-import Signin from '../pages/Signin'
-import Signup from '../pages/Signup'
+import { SavedPosts } from '../components'
+import {
+  FetchNews, Profile, Home, PostDetails, Signin, Signup,
+  NotFound,
+} from '../pages'
 
 const Routes = createBrowserRouter([
   {
@@ -35,6 +34,15 @@ const Routes = createBrowserRouter([
     element: <PostDetails />,
     errorElement: <NotFound />,
   },
+  {
+    path: '/profile',
+    element: <Profile />,
+  },
+  {
+    path: '/saves',
+    element: <SavedPosts />,
+  },
+
 ])
 
 export default Routes

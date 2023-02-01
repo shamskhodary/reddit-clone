@@ -6,7 +6,11 @@ import Navbar from './Navbar'
 import AllComments from './AllComments'
 import AddPost from './AddPost'
 import PostForm from './PostFrom'
+import SavedPosts from '../pages/SavedPosts'
+import SavedContainer from './SavedContainer'
 
 export {
   PostsContainer, Post, UserProfile, Navbar, Comments, AllComments, AddPost, PostForm,
+  SavedPosts,
+  SavedContainer,
 }

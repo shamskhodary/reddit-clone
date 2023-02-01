@@ -1,3 +1,4 @@
+import { message } from 'antd'
 import {
   createContext, ReactElement, useContext, useEffect, useMemo, useState,
 } from 'react'
@@ -10,36 +11,40 @@ export const AuthContext = createContext({})
 
 export const AuthProvider = ({ children }: IAuthContextProp):ReactElement => {
   const [user, setUser] = useState<IUser|null>(null)
-
   const signup = async (val:object):Promise<{isLogged: boolean, error:any}> => {
     try {
       const response = await ApiService.post('/api/v1/auth/signup', val)
-
       if (response.status === 200) {
         setUser(response.data.user)
         JwtService.setToken(response.data.token)
         ApiService.setHeader()
+
+        message.success(response.data.message)
       }
 
       return { isLogged: true, error: null }
-    } catch (error) {
+    } catch (error:any) {
+      message.error(error.response.data.message)
+
       return { isLogged: false, error }
     }
   }
 
-  const signin = async (val:object):Promise<{isLogged: boolean, message:any}> => {
+  const signin = async (val:object):Promise<{isLogged: boolean}> => {
     try {
       const response = await ApiService.post('/api/v1/auth/signin', val)
-
-      if (response.status === 200) {
+      if (response.data.token) {
         setUser(response.data.user)
         JwtService.setToken(response.data.token)
         ApiService.setHeader()
-      }
 
-      return { isLogged: true, message: response.data.message }
-    } catch (error) {
-      return { isLogged: false, message: error }
+        message.success(response.data.message)
+      } else {
+        message.error(response.data.message)
+      }
+      return { isLogged: true }
+    } catch (error:any) {
+      return { isLogged: false }
     }
   }
 

@@ -9,5 +9,7 @@ export default interface IPosts {
   user: IUser;
   createdAt: string;
   updatedAt: string;
-  comments: []
+  saved: boolean;
+  comments: [],
+  saves: []
 }

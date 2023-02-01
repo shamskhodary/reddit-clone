@@ -2,7 +2,9 @@ import { Avatar, message, Typography } from 'antd'
 import { FC, useEffect, useState } from 'react'
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faComment, faBookmark, faShareFromSquare } from '@fortawesome/free-regular-svg-icons'
+import {
+  faComment, faBookmark, faShareFromSquare, faCircleXmark,
+} from '@fortawesome/free-regular-svg-icons'
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons'
 import '../styles/post.css'
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons'
@@ -10,19 +12,22 @@ import { useNavigate } from 'react-router-dom'
 import IPostProp from '../interfaces/props/IPostProp'
 import ApiService from '../services/ApiService'
 import { useAuth } from '../context/authUser'
+import { usePost } from '../context/postContext'
 
 const Post:FC<IPostProp> = ({ post }) => {
   const { Title, Text } = Typography
   const navigate = useNavigate()
   const { user } = useAuth()
+  const { mySaved } = usePost()
   const [total, setTotal] = useState<number>(0)
   const [votedUp, setVotedUp] = useState<boolean>(false)
   const [votedDown, setVotedDown] = useState<boolean>(false)
+  const [clicked, setClicked] = useState<boolean>(false)
+  const [deleted, setDeleted] = useState<boolean>(false)
 
   const navigateTo = ():void => {
     navigate(`/posts/${post.id}`)
   }
-  // console.log(post.postImg)
   const handleVoteUp = async ():Promise<void> => {
     try {
       await ApiService.post(`/api/v1/posts/${post.id}/votes/up`, {})
@@ -54,6 +59,46 @@ const Post:FC<IPostProp> = ({ post }) => {
     allVotes()
   }, [post.id, votedUp, votedDown])
 
+  const handleSave = async ():Promise<void> => {
+    try {
+      const response = await ApiService.post(`/api/v1/posts/${post.id}/saves`, {})
+      if (user && response.data) {
+        setClicked(true)
+        setDeleted(false)
+      }
+    } catch (error:any) {
+      message.error(error.response.data.message)
+    }
+  }
+
+  const handleUnSave = async ():Promise<void> => {
+    let id = 0
+
+    mySaved.map((e:any) => {
+      if (e?.postId === post.id) {
+        id = e.id
+      }
+      return id
+    })
+
+    try {
+      const response = await ApiService.delete(`/api/v1/posts/${post.id}/saves/${id}`)
+      if (user && response.data) {
+        setDeleted(true)
+        setClicked(false)
+      }
+    } catch (error:any) {
+      message.error(error.response.data.message)
+    }
+  }
+
+  // useEffect(():any => {
+  //   if (user && post.saved) {
+  //     setDeleted(deleted)
+  //     setClicked(clicked)
+  //   }
+  // }, [clicked, deleted, post.saved, user])
+  //! need to fix the re-rendering
   return (
     <div
       className="post"
@@ -66,8 +111,6 @@ const Post:FC<IPostProp> = ({ post }) => {
       </div>
       <div
         className="details"
-        onClick={navigateTo}
-        aria-hidden="true"
       >
         <div className="post-user">
           <Avatar src={post.user?.profileImg} />
@@ -79,15 +122,27 @@ const Post:FC<IPostProp> = ({ post }) => {
           </div>
         </div>
 
-        <div className="title">
+        <div
+          className="title"
+          onClick={navigateTo}
+          aria-hidden="true"
+        >
           <Title level={4}>{post?.title}</Title>
         </div>
-        <div className="para">
+        <div
+          className="para"
+          onClick={navigateTo}
+          aria-hidden="true"
+        >
           <div dangerouslySetInnerHTML={{ __html: post.content }} />
         </div>
         {post?.postImg && <img src={post?.postImg} alt="" />}
         <div className="social-media">
-          <div className="icon">
+          <div
+            className="icon"
+            onClick={() => navigate(`posts/${post.id}`)}
+            aria-hidden="true"
+          >
             <FontAwesomeIcon icon={faComment} />
             <Title level={5}>
               <Text style={{ paddingRight: '5px' }}>
@@ -103,9 +158,18 @@ const Post:FC<IPostProp> = ({ post }) => {
             <Title level={5}>share</Title>
 
           </div>
-          <div className="icon">
-            <FontAwesomeIcon icon={faBookmark} />
-            <Title level={5}>save</Title>
+          <div
+            className="icon"
+            aria-hidden="true"
+          >
+            {(clicked && !deleted) ? (
+              <FontAwesomeIcon
+                icon={faCircleXmark}
+                onClick={handleUnSave}
+              />
+            ) : <FontAwesomeIcon icon={faBookmark} onClick={handleSave} />}
+
+            <Title level={5}>{(clicked && !deleted) ? 'unsave' : 'save'}</Title>
           </div>
 
           <FontAwesomeIcon icon={faEllipsis} />
