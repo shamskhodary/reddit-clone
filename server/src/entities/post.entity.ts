@@ -52,6 +52,9 @@ export class Post extends Model<Post> {
   @Column({ type: DataType.INTEGER })
   userId: number;
 
+  @Column({ type: DataType.BOOLEAN, defaultValue: false })
+  saved: boolean;
+
   @BelongsTo(() => User)
   user: User;
 

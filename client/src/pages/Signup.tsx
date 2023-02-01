@@ -1,5 +1,5 @@
 import {
-  Button, Modal, Input, Typography, Form, Select, DatePicker, notification,
+  Button, Modal, Input, Typography, Form, Select, DatePicker,
 } from 'antd'
 import { FC, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
@@ -30,11 +30,6 @@ const Signup:FC = () => {
     if (userInfo.isLogged === true) {
       setOpen(false)
       navigate('/')
-    } else if (userInfo.err) {
-      notification.error({
-        message: 'Error',
-        description: userInfo.err,
-      })
     }
   }
 

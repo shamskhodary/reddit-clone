@@ -68,14 +68,18 @@ export class AuthService {
       const user = await this.userModel.findOne({
         where: { email: dto.email },
       });
-      if (!user) throw new ForbiddenException(ErrorCode.USER_NOT_FOUND);
+      if (!user)
+        throw new HttpException(ErrorCode.USER_NOT_FOUND, HttpStatus.FORBIDDEN);
 
       const isPasswordMatched = await bcrypt.compare(
         dto.password,
         user.password,
       );
       if (!isPasswordMatched)
-        throw new ForbiddenException(ErrorCode.INCORRECT_PASSWORD);
+        throw new HttpException(
+          ErrorCode.INCORRECT_PASSWORD,
+          HttpStatus.FORBIDDEN,
+        );
 
       const token = await this.generateToken(user);
 

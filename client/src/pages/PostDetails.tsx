@@ -21,6 +21,7 @@ const PostDetails:FC = () => {
   const [total, setTotal] = useState<number>(0)
   const [votedUp, setVotedUp] = useState<boolean>(false)
   const [votedDown, setVotedDown] = useState<boolean>(false)
+  const [count, setCount] = useState<number>(0)
 
   useEffect(() => {
     const postInfo = async ():Promise<void> => {
@@ -69,6 +70,15 @@ const PostDetails:FC = () => {
     allVotes()
   }, [details?.id, votedUp, votedDown])
 
+  const allComments = async (postId:number):Promise<void> => {
+    const response = await ApiService.get(`/api/v1/posts/${postId}/comments/count`)
+    setCount(response.data)
+  }
+  useEffect(() => {
+    if (details?.id) {
+      allComments(details.id)
+    }
+  }, [details?.id])
   return (
     <>
       <Navbar />
@@ -103,7 +113,7 @@ const PostDetails:FC = () => {
             >
               <FontAwesomeIcon icon={faComment} />
               <Title level={5}>
-                <Text style={{ paddingRight: '5px' }}>{details?.comments?.length}</Text>
+                <Text style={{ paddingRight: '5px' }}>{count > 0 && count}</Text>
 
                 comments
 

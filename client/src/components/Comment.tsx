@@ -11,7 +11,6 @@ import AllComments from './AllComments'
 
 const Comments:FC = () => {
   const [isCommented, setIsCommented] = useState(false)
-  const [messageApi, contextHolder] = message.useMessage()
   const { id } = useParams()
 
   const initialValues:{content: string} = {
@@ -30,10 +29,7 @@ const Comments:FC = () => {
         }
       } catch (error:any) {
         if (error.response.status === 401) {
-          messageApi.error({
-            type: 'error',
-            content: error.response.statusText,
-          })
+          message.error(error.response.data.message)
         }
       }
     },
@@ -41,7 +37,6 @@ const Comments:FC = () => {
 
   return (
     <div className="comments">
-      {contextHolder}
       <Form
         style={{ width: '100%' }}
         onSubmitCapture={formik.handleSubmit}

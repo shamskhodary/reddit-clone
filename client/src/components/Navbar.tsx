@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import {
   Avatar, Typography,
   Button, Dropdown, Input, MenuProps, Space,
@@ -19,6 +19,7 @@ const Navbar:FC = () => {
   const auth = useAuth()
   const [search, setSearch] = useState<string>('')
   const { setPost } = usePost()
+  const navigate = useNavigate()
 
   const items: MenuProps['items'] = [
     {
@@ -33,6 +34,7 @@ const Navbar:FC = () => {
             fontWeight: 700,
             color: '#000',
           }}
+          onClick={() => navigate('/profile')}
         >
           Profile
         </Button>
@@ -51,6 +53,7 @@ const Navbar:FC = () => {
             fontWeight: 700,
             color: '#000',
           }}
+          onClick={() => navigate('/saves')}
         >
           Saves
         </Button>
